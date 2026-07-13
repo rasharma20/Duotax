@@ -181,6 +181,29 @@ document.addEventListener('DOMContentLoaded', () => {
     nums.forEach(n => { n.addEventListener('input', () => { if (n.value && Number(n.value) < 0) n.value = 0; calculateAndUpdate(); }); });
   }
 
+  // --- Accordion wiring: toggle individual sections independently ---
+  function wireAccordions() {
+    document.querySelectorAll('.accordion-toggle').forEach(toggle => {
+      toggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = toggle.dataset.target;
+        if (!targetId) return;
+        const content = document.getElementById(targetId);
+        if (!content) return;
+        const isHidden = content.classList.contains('hidden');
+        // toggle only this content
+        if (isHidden) {
+          content.classList.remove('hidden');
+          // arrow
+          const arrow = toggle.querySelector('.accordion-arrow'); if (arrow) arrow.textContent = '▲';
+        } else {
+          content.classList.add('hidden');
+          const arrow = toggle.querySelector('.accordion-arrow'); if (arrow) arrow.textContent = '▼';
+        }
+      });
+    });
+  }
+
   // --- Run initialization ---
   initializeGroups();
   ['state','propertyType','finishLevel','wallType'].forEach(g => {
@@ -189,6 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!alreadyActive) { const first = document.querySelector(`button[data-group="${g}"]`); if (first) setActiveButton(first); }
   });
   wireButtonGroups(); wireDuctToggle(); wireInputs();
+  wireAccordions();
   calculateAndUpdate();
 
 });

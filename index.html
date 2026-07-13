@@ -187,7 +187,7 @@
           <button class="w-full flex items-center justify-between p-5 font-bold text-left border-b border-[#E2E8F0] hover:bg-[#F8FAFC]">
             <span>How your estimate is calculated</span>
           </button>
-          <div class="p-5 space-y-4 bg-[#F8FAFC]">
+            <div class="p-5 space-y-4 bg-[#F8FAFC]">
             <div>
               <button class="w-full flex items-center justify-between font-bold text-sm text-[#0F172A] mb-2">
                 <span>Your inputs</span>
@@ -197,18 +197,40 @@
                 Your estimate starts with a per-m² build rate based on your selected state and finish level, sourced from current Australian construction data. Rates typically range from $1,800/m² (standard) to $4,500/m² (luxury) depending on location and specification.
               </p>
             </div>
-            <div class="border-t border-[#E2E8F0] pt-3 flex justify-between text-sm font-medium text-[#64748B]">
-              <span>How we calculated it</span>
-              <span>▼</span>
+
+            <!-- Accordion item: How we calculated it -->
+            <div class="border-t border-[#E2E8F0] pt-3">
+              <button class="w-full flex justify-between text-sm font-medium text-[#64748B] accordion-toggle" data-target="how-calculated">
+                <span>How we calculated it</span>
+                <span class="accordion-arrow">▼</span>
+              </button>
+              <div id="how-calculated" class="accordion-content hidden mt-2 text-xs text-[#64748B]">
+                Each inclusion adds a fixed estimated cost to your total. Ducted air-conditioning adds approximately $18,000–$25,000, solar panels add $8,000–$12,000, and an alfresco area adds $15,000–$22,000 depending on size and specification.
+              </div>
             </div>
-            <div class="border-t border-[#E2E8F0] pt-3 flex justify-between text-sm font-medium text-[#64748B]">
-              <span>What affects your estimate</span>
-              <span>▼</span>
+
+            <!-- Accordion item: What affects your estimate -->
+            <div class="border-t border-[#E2E8F0] pt-3">
+              <button class="w-full flex justify-between text-sm font-medium text-[#64748B] accordion-toggle" data-target="what-affects">
+                <span>What affects your estimate</span>
+                <span class="accordion-arrow">▼</span>
+              </button>
+              <div id="what-affects" class="accordion-content hidden mt-2 text-xs text-[#64748B]">
+                The low estimate assumes favourable site conditions, competitive tender pricing, and no significant variations. The high estimate accounts for site-specific challenges, material cost movements, and contractor availability in your area.
+              </div>
             </div>
-            <div class="border-t border-[#E2E8F0] pt-3 flex justify-between text-sm font-medium text-[#64748B]">
-              <span>Totals (ex-GST)</span>
-              <span>▼</span>
+
+            <!-- Accordion item: Totals (ex-GST) -->
+            <div class="border-t border-[#E2E8F0] pt-3">
+              <button class="w-full flex justify-between text-sm font-medium text-[#64748B] accordion-toggle" data-target="totals-exgst">
+                <span>Totals (ex-GST)</span>
+                <span class="accordion-arrow">▼</span>
+              </button>
+              <div id="totals-exgst" class="accordion-content hidden mt-2 text-xs text-[#64748B]">
+                This estimate excludes land purchase, stamp duty, council fees, architect fees, demolition (for knockdown rebuilds), landscaping, driveway, fencing, and connection to services (water, gas, electricity). An Initial Cost Report provides a comprehensive breakdown.
+              </div>
             </div>
+
           </div>
         </div>
 
