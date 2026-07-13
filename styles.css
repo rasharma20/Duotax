@@ -99,3 +99,25 @@ button[data-group] {
 button[data-group]:hover {
   box-shadow: 0 2px 8px rgba(226, 125, 36, 0.15);
 }
+
+/* Accordion animations */
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, margin-top 0.3s ease-in-out;
+}
+
+.accordion-content:not(.hidden) {
+  max-height: 500px;
+  opacity: 1;
+}
+
+.accordion-arrow {
+  display: inline-block;
+  transition: transform 0.3s ease-in-out;
+}
+
+.accordion-toggle[aria-expanded="true"] .accordion-arrow {
+  transform: rotate(180deg);
+}
