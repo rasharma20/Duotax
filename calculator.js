@@ -124,25 +124,21 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateEstimateUI({ low, mid, high, baseBuildCost, ductedCost, total, st, baseRate }) {
     const mainEl = document.querySelector('aside h2'); if (mainEl) mainEl.textContent = formatMoney(mid);
 
-    const quickRows = document.querySelectorAll('aside .space-y-2.5 > .flex.justify-between');
-    if (quickRows && quickRows.length >= 3) {
-      const lowPrice = quickRows[0].querySelector('span:last-child');
-      const midPrice = quickRows[1].querySelector('span:last-child');
-      const highPrice = quickRows[2].querySelector('span:last-child');
-      if (lowPrice) lowPrice.textContent = formatMoney(low);
-      if (midPrice) midPrice.textContent = formatMoney(mid);
-      if (highPrice) highPrice.textContent = formatMoney(high);
-    }
+    // Update low/mid/high using data-attributes
+    const lowRow = document.querySelector('[data-estimate-row="low"] span:last-child');
+    const midRow = document.querySelector('[data-estimate-row="mid"] span:last-child');
+    const highRow = document.querySelector('[data-estimate-row="high"] span:last-child');
+    if (lowRow) lowRow.textContent = formatMoney(low);
+    if (midRow) midRow.textContent = formatMoney(mid);
+    if (highRow) highRow.textContent = formatMoney(high);
 
-    const breakdownRows = document.querySelectorAll('aside .space-y-3 .flex.justify-between');
-    if (breakdownRows && breakdownRows.length >= 3) {
-      const baseSpan = breakdownRows[0].querySelector('span:last-child');
-      const ductedSpan = breakdownRows[1].querySelector('span:last-child');
-      const totalSpan = breakdownRows[2].querySelector('span:last-child');
-      if (baseSpan) baseSpan.textContent = formatMoney(baseBuildCost);
-      if (ductedSpan) ductedSpan.textContent = formatMoney(ductedCost);
-      if (totalSpan) totalSpan.textContent = formatMoney(total);
-    }
+    // Update cost breakdown using data-attributes
+    const baseBreakdown = document.querySelector('[data-breakdown-row="base"] span:last-child');
+    const ductedBreakdown = document.querySelector('[data-breakdown-row="ducted"] span:last-child');
+    const totalBreakdown = document.querySelector('[data-breakdown-row="total"] span:last-child');
+    if (baseBreakdown) baseBreakdown.textContent = formatMoney(baseBuildCost);
+    if (ductedBreakdown) ductedBreakdown.textContent = formatMoney(ductedCost);
+    if (totalBreakdown) totalBreakdown.textContent = formatMoney(total);
 
     // Update bottom 'Your inputs' summary
     let yourInputsBtn = null;
@@ -153,7 +149,15 @@ document.addEventListener('DOMContentLoaded', () => {
         let para = container.querySelector('p.text-xs');
         if (!para) para = container.querySelector('p');
         if (para) {
-          const summary = `\n            <div style="margin-top:.6rem;font-size:.85rem;color: #334155;">\n              <strong>Selections:</strong>\n              ${st.state ? ` State: ${st.state};` : ''}\n              ${st.propertyType ? ` Property: ${st.propertyType};` : ''}\n              ${st.finishLevel ? ` Finish: ${st.finishLevel};` : ''}\n              ${st.wallType ? ` Wall: ${st.wallType};` : ''}\n              Year: ${st.completionYear || '—'}; Area: ${st.floorArea} m²; Bedrooms: ${st.bedrooms}; Floors: ${st.floors};\n            </div>`;
+          const summary = `
+            <div style="margin-top:.6rem;font-size:.85rem;color: #334155;">
+              <strong>Selections:</strong>
+              ${st.state ? ` State: ${st.state};` : ''}
+              ${st.propertyType ? ` Property: ${st.propertyType};` : ''}
+              ${st.finishLevel ? ` Finish: ${st.finishLevel};` : ''}
+              ${st.wallType ? ` Wall: ${st.wallType};` : ''}
+              Year: ${st.completionYear || '—'}; Area: ${st.floorArea} m²; Bedrooms: ${st.bedrooms}; Floors: ${st.floors};
+            </div>`;
           let summaryNode = container.querySelector('#your-inputs-summary');
           if (!summaryNode) { summaryNode = document.createElement('div'); summaryNode.id = 'your-inputs-summary'; para.insertAdjacentElement('afterend', summaryNode); }
           summaryNode.innerHTML = summary;
