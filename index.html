@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Construction Cost Calculator</title>
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Base Wrapper Container -->
+  <div class="min-h-screen bg-[#F8FAFC] py-12 px-4 sm:px-6 lg:px-8 font-sans antialiased text-[#1E293B]">
+  <div class="max-w-7xl mx-auto">
+    
+    <!-- Premium Header Section -->
+    <header class="mb-10">
+      <h1 class="text-4xl font-extrabold tracking-tight text-[#0F172A] sm:text-5xl">
+        Construction cost <span class="text-[#E27D24]">calculator</span>
+      </h1>
+      <p class="mt-3 text-lg text-[#64748B]">
+        Estimate your build cost across Australian states
+      </p>
+    </header>
+
+    <!-- Main 2-Column Responsive Layout Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- LEFT COLUMN: Input Control Panel (Columns 1-7) -->
+      <main class="lg:col-span-7 space-y-8">
+        
+        <!-- Field 1: State Picker -->
+        <div>
+          <label class="block text-sm font-semibold uppercase tracking-wider text-[#64748B] mb-3">Investment Property State</label>
+          <div class="flex flex-wrap gap-2">
+            <button class="px-5 py-2.5 rounded-full border-2 border-[#E27D24] bg-[#FDF2E9] text-[#E27D24] font-bold transition-all text-sm">NSW</button>
+            <button class="px-5 py-2.5 rounded-full border border-[#E2E8F0] bg-white text-[#64748B] hover:border-[#CBD5E1] transition-all text-sm">VIC</button>
+            <button class="px-5 py-2.5 rounded-full border border-[#E2E8F0] bg-white text-[#64748B] hover:border-[#CBD5E1] transition-all text-sm">QLD</button>
+            <button class="px-5 py-2.5 rounded-full border border-[#E2E8F0] bg-white text-[#64748B] hover:border-[#CBD5E1] transition-all text-sm">ACT</button>
+            <button class="px-5 py-2.5 rounded-full border border-[#E2E8F0] bg-white text-[#64748B] hover:border-[#CBD5E1] transition-all text-sm">WA</button>
+            <button class="px-5 py-2.5 rounded-full border border-[#E2E8F0] bg-white text-[#64748B] hover:border-[#CBD5E1] transition-all text-sm">SA</button>
+          </div>
+        </div>
+
+        <!-- Field 2: Property Type Selector -->
+        <div>
+          <label class="block text-sm font-semibold uppercase tracking-wider text-[#64748B] mb-3">Investment Property Type</label>
+          <div class="flex flex-wrap gap-2">
+            <button class="px-5 py-2.5 rounded-lg border border-[#E2E8F0] bg-white text-[#64748B] text-sm">House</button>
+            <button class="px-5 py-2.5 rounded-lg border-2 border-[#E27D24] bg-[#FDF2E9] text-[#E27D24] font-bold text-sm">Granny</button>
+            <button class="px-5 py-2.5 rounded-lg border border-[#E2E8F0] bg-white text-[#64748B] text-sm">Appartment</button>
+            <button class="px-5 py-2.5 rounded-lg border border-[#E2E8F0] bg-white text-[#64748B] text-sm">Office</button>
+            <button class="px-5 py-2.5 rounded-lg border border-[#E2E8F0] bg-white text-[#64748B] text-sm">Warehouse</button>
+          </div>
+        </div>
+
+        <!-- Field 3 & 4 Grid: Completion Year & Finish Level -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-semibold uppercase tracking-wider text-[#64748B] mb-3">Construction Completion Year</label>
+            <select class="w-full px-4 py-3 rounded-lg border border-[#E2E8F0] bg-white font-medium text-[#0F172A] focus:outline-none focus:border-[#E27D24] transition-colors">
+              <option value="">Select Year</option>
+              <option value="1970">1970</option>
+              <option value="1971">1971</option>
+              <option value="1972">1972</option>
+              <option value="1973">1973</option>
+              <option value="1974">1974</option>
+              <option value="1975">1975</option>
+              <option value="1976">1976</option>
+              <option value="1977">1977</option>
+              <option value="1978">1978</option>
+              <option value="1979">1979</option>
+              <option value="1980">1980</option>
+              <option value="1981">1981</option>
+              <option value="1982">1982</option>
+              <option value="1983">1983</option>
+              <option value="1984">1984</option>
+              <option value="1985">1985</option>
+              <option value="1986">1986</option>
+              <option value="1987">1987</option>
+              <option value="1988">1988</option>
+              <option value="1989">1989</option>
+              <option value="1990">1990</option>
+              <option value="1991">1991</option>
+              <option value="1992">1992</option>
+              <option value="1993">1993</option>
+              <option value="1994">1994</option>
+              <option value="1995">1995</option>
+              <option value="1996">1996</option>
+              <option value="1997">1997</option>
+              <option value="1998">1998</option>
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001">2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+              <option value="2004">2004</option>
+              <option value="2005">2005</option>
+              <option value="2006">2006</option>
+              <option value="2007">2007</option>
+              <option value="2008">2008</option>
+              <option value="2009">2009</option>
+              <option value="2010">2010</option>
+              <option value="2011">2011</option>
+              <option value="2012">2012</option>
+              <option value="2013">2013</option>
+              <option value="2014">2014</option>
+              <option value="2015">2015</option>
+              <option value="2016">2016</option>
+              <option value="2017">2017</option>
+              <option value="2018">2018</option>
+              <option value="2019">2019</option>
+              <option value="2020" selected>2020</option>
+              <option value="2021">2021</option>
+              <option value="2022">2022</option>
+              <option value="2023">2023</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+              <option value="2028">2028</option>
+              <option value="2029">2029</option>
+              <option value="2030">2030</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold uppercase tracking-wider text-[#64748B] mb-3">Spec / finish level</label>
+            <div class="flex gap-2 h-[50px]">
+              <button class="flex-1 rounded-lg border border-[#E2E8F0] bg-white text-[#64748B] text-sm">Low</button>
+              <button class="flex-1 rounded-lg border-2 border-[#E27D24] bg-[#FDF2E9] text-[#E27D24] font-bold text-sm">Standard</button>
+              <button class="flex-1 rounded-lg border border-[#E2E8F0] bg-white text-[#64748B] text-sm">High</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dimensions Layout Block -->
+        <div class="space-y-4 max-w-md">
+          <div class="flex items-center justify-between">
+            <label class="text-sm font-semibold text-[#1E293B]">Floor Area (M²)</label>
+            <div class="flex items-center gap-2">
+              <input type="number" value="200" class="w-20 px-2 py-1.5 text-right font-bold border border-[#E2E8F0] rounded-md">
+              <span class="text-sm text-[#64748B] font-medium">(M²)</span>
+            </div>
+          </div>
+          
+          <div class="flex items-center justify-between">
+            <label class="text-sm font-semibold text-[#1E293B]">Number of Bedrooms?</label>
+            <input type="number" value="4" class="w-20 px-2 py-1.5 text-right font-bold border border-[#E2E8F0] rounded-md">
+          </div>
+
+          <div class="flex items-center justify-between">
+            <label class="text-sm font-semibold text-[#1E293B]">Number of Floors?</label>
+            <input type="number" value="1" class="w-20 px-2 py-1.5 text-right font-bold border border-[#E2E8F0] rounded-md">
+          </div>
+        </div>
+
+        <!-- Field 5: Wall Type Selection -->
+        <div>
+          <label class="block text-sm font-semibold uppercase tracking-wider text-[#64748B] mb-3">Wall Type</label>
+          <div class="flex gap-3">
+            <button class="px-6 py-2.5 rounded-lg border-2 border-[#E27D24] bg-[#FDF2E9] text-[#E27D24] font-bold text-sm">Brick Veneer</button>
+            <button class="px-6 py-2.5 rounded-lg border border-[#E2E8F0] bg-white text-[#64748B] text-sm">Double Brick</button>
+            <button class="px-6 py-2.5 rounded-lg border border-[#E2E8F0] bg-white text-[#64748B] text-sm">Concrete</button>
+          </div>
+        </div>
+
+        <!-- Field 6: Switch Toggle (Inclusions) -->
+        <div>
+          <label class="block text-sm font-semibold uppercase tracking-wider text-[#64748B] mb-3">Inclusions</label>
+          <div class="flex items-center justify-between max-w-sm p-4 bg-white border border-[#E2E8F0] rounded-xl shadow-sm">
+            <div>
+              <p class="text-sm font-bold text-[#0F172A]">Ducted air-conditioning</p>
+              <p class="text-xs text-[#64748B]">Whole-home reverse cycle system</p>
+            </div>
+            <!-- Active Orange Switch Button -->
+            <button data-toggle="ducted-ac" class="w-12 h-6 bg-[#E27D24] rounded-full p-0.5 relative flex items-center justify-end transition-all cursor-pointer">
+              <span class="w-5 h-5 bg-white rounded-full shadow-md transition-all"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Bottom Informational Summary Section -->
+        <div class="bg-white border border-[#E2E8F0] rounded-2xl shadow-sm overflow-hidden">
+          <button class="w-full flex items-center justify-between p-5 font-bold text-left border-b border-[#E2E8F0] hover:bg-[#F8FAFC]">
+            <span>How your estimate is calculated</span>
+          </button>
+          <div class="p-5 space-y-4 bg-[#F8FAFC]">
+            <div>
+              <button class="w-full flex items-center justify-between font-bold text-sm text-[#0F172A] mb-2">
+                <span>Your inputs</span>
+                <span>▲</span>
+              </button>
+              <p class="text-xs text-[#64748B] leading-relaxed">
+                Your estimate starts with a per-m² build rate based on your selected state and finish level, sourced from current Australian construction data. Rates typically range from $1,800/m² (standard) to $4,500/m² (luxury) depending on location and specification.
+              </p>
+            </div>
+            <div class="border-t border-[#E2E8F0] pt-3 flex justify-between text-sm font-medium text-[#64748B]">
+              <span>How we calculated it</span>
+              <span>▼</span>
+            </div>
+            <div class="border-t border-[#E2E8F0] pt-3 flex justify-between text-sm font-medium text-[#64748B]">
+              <span>What affects your estimate</span>
+              <span>▼</span>
+            </div>
+            <div class="border-t border-[#E2E8F0] pt-3 flex justify-between text-sm font-medium text-[#64748B]">
+              <span>Totals (ex-GST)</span>
+              <span>▼</span>
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+      <!-- RIGHT COLUMN: Premium Results Summary Sticky Card (Columns 8-12) -->
+      <aside class="lg:col-span-5 lg:sticky lg:top-8">
+        <div class="bg-white rounded-3xl p-8 border border-[#E2E8F0] shadow-xl shadow-slate-100 space-y-6">
+          
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wider text-[#64748B]">Estimated build cost</p>
+            <h2 class="text-5xl font-black text-[#0F172A] mt-1">$460,139</h2>
+          </div>
+
+          <!-- Quick Metrics Metrics Rows -->
+          <div class="space-y-2.5 text-xs font-medium text-[#64748B] border-t border-b border-[#E2E8F0] py-4">
+            <div class="flex justify-between">
+              <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-green-500"></span>Low estimate</span>
+              <span class="font-bold text-[#0F172A]">$418,726</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>Mid estimate</span>
+              <span class="font-bold text-[#0F172A]">$460,139</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>High estimate</span>
+              <span class="font-bold text-[#0F172A]">$501,551</span>
+            </div>
+          </div>
+
+          <!-- Comprehensive Cost Breakdown Receipt -->
+          <div class="space-y-3">
+            <p class="text-[11px] font-bold uppercase tracking-wider text-[#94A3B8]">Cost breakdown</p>
+            <div class="flex justify-between text-xs font-medium border-b border-[#F1F5F9] pb-2">
+              <span class="text-[#64748B]">Base build</span>
+              <span class="text-[#0F172A] font-semibold">$418,726</span>
+            </div>
+            <div class="flex justify-between text-xs font-medium border-b border-[#F1F5F9] pb-2">
+              <span class="text-[#64748B]">Ducted air-conditioning</span>
+              <span class="text-[#0F172A] font-semibold">$41,413</span>
+            </div>
+            <div class="flex justify-between text-sm font-bold pt-1 text-[#0F172A]">
+              <span>TOTAL</span>
+              <span>$460,139</span>
+            </div>
+          </div>
+
+          <!-- Analytical Sub-Metrics Boxes -->
+          <div class="grid grid-cols-2 gap-4 pt-2">
+            <div class="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0] text-center">
+              <p class="text-[10px] font-bold uppercase tracking-wider text-[#64748B]">Cost per m²</p>
+              <p class="text-sm font-extrabold text-[#0F172A] mt-0.5">$2,300</p>
+            </div>
+            <div class="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0] text-center">
+              <p class="text-[10px] font-bold uppercase tracking-wider text-[#64748B]">Floor area</p>
+              <p class="text-sm font-extrabold text-[#0F172A] mt-0.5">200 m²</p>
+            </div>
+          </div>
+
+          <!-- Prominent Main Action CTA Button -->
+          <button class="w-full py-4 px-6 bg-[#E27D24] hover:bg-[#c9691b] text-white font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-orange-100 transition-all text-base transform hover:-translate-y-0.5 active:translate-y-0">
+            <span>Order Initial Cost Report</span>
+            <span class="text-lg">↗</span>
+          </button>
+
+          <p class="text-[11px] text-[#94A3B8] text-center leading-relaxed px-2">
+            Estimates are indicative only. Figures are based on current market data and may vary. An Initial Cost Report provides a detailed, site-specific assessment.
+          </p>
+
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</div>
+
+<script src="calculator.js"></script>
+</body>
+</html>
