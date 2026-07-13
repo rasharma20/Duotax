@@ -1,43 +1,198 @@
-// ============================================
-// Calculator State Management Framework
-// ============================================
+/* Calculator interactivity: button toggles + real-time calculation */
+document.addEventListener('DOMContentLoaded', () => {
+  // --- Configuration (base rates and multipliers) ---
+  const stateBaseRates = {
+    NSW: 2100,
+    VIC: 2000,
+    QLD: 1900,
+    ACT: 2200,
+    WA: 1950,
+    SA: 1850
+  };
+  const finishMultipliers = {
+    Low: 0.90,
+    Standard: 1.00,
+    High: 1.20
+  };
+  const DUCTED_AC_COST = 41413;
+  const BEDROOM_EXTRA = 15000; // per bedroom above 1
+  const FLOORS_EXTRA = 25000; // if floors > 1
 
-// State-based pricing per m² (base rates)
-const statePricing = {
-  'NSW': 2300,
-  'VIC': 2200,
-  'QLD': 2100,
-  'ACT': 2350,
-  'WA': 2150,
-  'SA': 2050
-};
+  // --- Helpers to set classes ---
+  function setActiveButton(button) {
+    const group = button.dataset.group;
+    if (!group) return;
+    const buttons = document.querySelectorAll(`button[data-group="${group}"]`);
+    buttons.forEach(btn => {
+      // inactive style
+      btn.classList.remove('border-2','border-[#E27D24]','bg-[#FDF2E9]','text-[#E27D24]','font-bold');
+      btn.classList.add('border','border-[#E2E8F0]','bg-white','text-[#64748B]','font-normal');
+    });
+    // active style on clicked
+    button.classList.remove('border','border-[#E2E8F0]','bg-white','text-[#64748B]','font-normal');
+    button.classList.add('border-2','border-[#E27D24]','bg-[#FDF2E9]','text-[#E27D24]','font-bold');
+  }
 
-// Finish level multipliers
-const finishLevelMultipliers = {
-  'Low': 0.85,
-  'Standard': 1.0,
-  'High': 1.25
-};
+  function toggleDucted(button) {
+    const active = button.classList.toggle('ducted-active');
+    if (active) {
+      button.classList.remove('bg-[#E2E8F0]','justify-start');
+      button.classList.add('bg-[#E27D24]','justify-end');
+    } else {
+      button.classList.remove('bg-[#E27D24]','justify-end');
+      button.classList.add('bg-[#E2E8F0]','justify-start');
+    }
+    return active;
+  }
 
-// Wall type cost adjustments (additional cost per m²)
-const wallTypeAdjustments = {
-  'Brick Veneer': 0,
-  'Double Brick': 150,
-  'Concrete': 100
-};
+  // --- Initialize data-group/data-value attributes if missing ---
+  function initializeGroups() {
+    document.querySelectorAll('button').forEach(btn => {
+      const text = btn.textContent.trim();
+      if (!btn.hasAttribute('data-group')) {
+        if (['NSW','VIC','QLD','ACT','WA','SA'].includes(text)) {
+          btn.dataset.group = 'state'; btn.dataset.value = text;
+        }
+        if (['House','Granny','Appartment','Apartment','Office','Warehouse'].includes(text)) {
+          btn.dataset.group = 'propertyType'; btn.dataset.value = text;
+        }
+        if (['Low','Standard','High'].includes(text)) {
+          btn.dataset.group = 'finishLevel'; btn.dataset.value = text;
+        }
+        if (['Brick Veneer','Double Brick','Concrete'].includes(text)) {
+          btn.dataset.group = 'wallType'; btn.dataset.value = text;
+        }
+      } else {
+        if (!btn.hasAttribute('data-value')) btn.dataset.value = text;
+      }
+    });
 
-// Initialize state object
-const calculatorState = {
-  state: 'NSW',
-  propertyType: 'Granny',
-  finishLevel: 'Standard',
-  wallType: 'Brick Veneer',
-  ductedAC: true,
-  completionYear: '2020',
-  floorArea: 200,
-  bedrooms: 4,
-  floors: 1
-};
+    const ductToggle = document.querySelector('[data-toggle="ducted-ac"]');
+    if (ductToggle) {
+      const initiallyOn = ductToggle.classList.contains('bg-[#E27D24]') || ductToggle.classList.contains('ducted-active');
+      if (initiallyOn) ductToggle.classList.add('ducted-active');
+      else { ductToggle.classList.remove('ducted-active'); ductToggle.classList.add('bg-[#E2E8F0]','justify-start'); }
+    }
+  }
+
+  // --- Read current inputs from DOM into a single state object ---
+  function readState() {
+    const s = {
+      state: getSelectedValue('state') || 'NSW',
+      propertyType: getSelectedValue('propertyType') || '',
+      finishLevel: getSelectedValue('finishLevel') || 'Standard',
+      wallType: getSelectedValue('wallType') || '',
+      ductedAC: Boolean(document.querySelector('[data-toggle="ducted-ac"]')?.classList.contains('ducted-active')),
+      completionYear: document.querySelector('select')?.value || '',
+      floorArea: parseFloat(document.querySelector('input[type="number"]')?.value) || 0,
+      bedrooms: parseInt(document.querySelectorAll('input[type="number"]')[1]?.value) || 0,
+      floors: parseInt(document.querySelectorAll('input[type="number"]')[2]?.value) || 0
+    };
+    return s;
+  }
+
+  function getSelectedValue(group) {
+    const active = document.querySelector(`button[data-group="${group}"].border-2`);
+    return active?.dataset?.value;
+  }
+
+  // --- Main calculation logic ---
+  function calculateAndUpdate() {
+    const st = readState();
+    const baseRateStandard = stateBaseRates[st.state] ?? 2100;
+    const finishMultiplier = finishMultipliers[st.finishLevel] ?? 1.0;
+    const baseRate = Math.round(baseRateStandard * finishMultiplier);
+
+    const baseBuildCost = Math.round(st.floorArea * baseRate);
+
+    const bedroomsExtra = Math.max(0, (st.bedrooms || 0) - 1) * BEDROOM_EXTRA;
+    const floorsExtra = (st.floors || 0) > 1 ? FLOORS_EXTRA : 0;
+    const ductedCost = st.ductedAC ? DUCTED_AC_COST : 0;
+
+    const total = baseBuildCost + bedroomsExtra + floorsExtra + ductedCost;
+
+    const low = Math.round(total * 0.91);
+    const mid = Math.round(total);
+    const high = Math.round(total * 1.09);
+
+    updateEstimateUI({ low, mid, high, baseBuildCost, ductedCost, total, st, baseRate });
+  }
+
+  // --- DOM update helpers ---
+  function formatMoney(n) { return `$${Number(n).toLocaleString('en-AU', { maximumFractionDigits: 0 })}`; }
+
+  function updateEstimateUI({ low, mid, high, baseBuildCost, ductedCost, total, st, baseRate }) {
+    const mainEl = document.querySelector('aside h2'); if (mainEl) mainEl.textContent = formatMoney(mid);
+
+    const quickRows = document.querySelectorAll('aside .space-y-2.5 > .flex.justify-between');
+    if (quickRows && quickRows.length >= 3) {
+      const lowPrice = quickRows[0].querySelector('span:last-child');
+      const midPrice = quickRows[1].querySelector('span:last-child');
+      const highPrice = quickRows[2].querySelector('span:last-child');
+      if (lowPrice) lowPrice.textContent = formatMoney(low);
+      if (midPrice) midPrice.textContent = formatMoney(mid);
+      if (highPrice) highPrice.textContent = formatMoney(high);
+    }
+
+    const breakdownRows = document.querySelectorAll('aside .space-y-3 .flex.justify-between');
+    if (breakdownRows && breakdownRows.length >= 3) {
+      const baseSpan = breakdownRows[0].querySelector('span:last-child');
+      const ductedSpan = breakdownRows[1].querySelector('span:last-child');
+      const totalSpan = breakdownRows[2].querySelector('span:last-child');
+      if (baseSpan) baseSpan.textContent = formatMoney(baseBuildCost);
+      if (ductedSpan) ductedSpan.textContent = formatMoney(ductedCost);
+      if (totalSpan) totalSpan.textContent = formatMoney(total);
+    }
+
+    // Update bottom 'Your inputs' summary
+    let yourInputsBtn = null;
+    document.querySelectorAll('button').forEach(b => { if ((b.textContent||'').trim().includes('Your inputs')) yourInputsBtn = b; });
+    if (yourInputsBtn) {
+      const container = yourInputsBtn.closest('.p-5');
+      if (container) {
+        let para = container.querySelector('p.text-xs');
+        if (!para) para = container.querySelector('p');
+        if (para) {
+          const summary = `\n            <div style="margin-top:.6rem;font-size:.85rem;color: #334155;">\n              <strong>Selections:</strong>\n              ${st.state ? ` State: ${st.state};` : ''}\n              ${st.propertyType ? ` Property: ${st.propertyType};` : ''}\n              ${st.finishLevel ? ` Finish: ${st.finishLevel};` : ''}\n              ${st.wallType ? ` Wall: ${st.wallType};` : ''}\n              Year: ${st.completionYear || '—'}; Area: ${st.floorArea} m²; Bedrooms: ${st.bedrooms}; Floors: ${st.floors};\n            </div>`;
+          let summaryNode = container.querySelector('#your-inputs-summary');
+          if (!summaryNode) { summaryNode = document.createElement('div'); summaryNode.id = 'your-inputs-summary'; para.insertAdjacentElement('afterend', summaryNode); }
+          summaryNode.innerHTML = summary;
+        }
+      }
+    }
+  }
+
+  // --- Event wiring ---
+  function wireButtonGroups() {
+    document.querySelectorAll('button[data-group]').forEach(btn => {
+      btn.addEventListener('click', (e) => { e.preventDefault(); setActiveButton(btn); calculateAndUpdate(); });
+    });
+  }
+
+  function wireDuctToggle() {
+    const toggle = document.querySelector('[data-toggle="ducted-ac"]');
+    if (!toggle) return;
+    toggle.addEventListener('click', (e) => { e.preventDefault(); toggleDucted(toggle); calculateAndUpdate(); });
+  }
+
+  function wireInputs() {
+    const yearSelect = document.querySelector('select'); if (yearSelect) yearSelect.addEventListener('change', () => calculateAndUpdate());
+    const nums = document.querySelectorAll('input[type="number"]');
+    nums.forEach(n => { n.addEventListener('input', () => { if (n.value && Number(n.value) < 0) n.value = 0; calculateAndUpdate(); }); });
+  }
+
+  // --- Run initialization ---
+  initializeGroups();
+  ['state','propertyType','finishLevel','wallType'].forEach(g => {
+    const active = document.querySelector(`button[data-group="${g}"]`).classList.contains('border-2') ? document.querySelector(`button[data-group="${g}"]`) : null;
+    const alreadyActive = document.querySelector(`button[data-group="${g}"].border-2`);
+    if (!alreadyActive) { const first = document.querySelector(`button[data-group="${g}"]`); if (first) setActiveButton(first); }
+  });
+  wireButtonGroups(); wireDuctToggle(); wireInputs();
+  calculateAndUpdate();
+
+});
+
 
 // Configuration for button groups
 const buttonGroups = {
