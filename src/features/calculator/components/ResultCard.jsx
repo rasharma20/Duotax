@@ -1,6 +1,6 @@
 import { formatMoney } from '../utils/formatMoney';
 
-function ResultCard({ estimate, floorArea }) {
+function ResultCard({ estimate, floorArea, onOrderReport }) {
   return (
     <aside className="lg:sticky lg:top-8 lg:col-span-5">
       <div className="space-y-6 rounded-3xl border border-[#E2E8F0] bg-white p-8 shadow-xl shadow-slate-100">
@@ -51,8 +51,12 @@ function ResultCard({ estimate, floorArea }) {
           </div>
         </div>
 
-        <button type="button" className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#E27D24] px-6 py-4 text-base font-bold text-white shadow-lg shadow-orange-100 transition-all hover:-translate-y-0.5 hover:bg-[#c9691b] active:translate-y-0">
-          <span>Order Initial Cost Report</span>
+        <button
+          type="button"
+          onClick={onOrderReport}
+          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#E27D24] px-6 py-4 text-base font-bold text-white shadow-lg shadow-orange-100 transition-all hover:-translate-y-0.5 hover:bg-[#c9691b] active:translate-y-0"
+        >
+          <span>Request Initial Cost Report</span>
           <span className="text-lg">↗</span>
         </button>
 
